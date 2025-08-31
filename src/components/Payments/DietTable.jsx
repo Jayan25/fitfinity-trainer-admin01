@@ -23,6 +23,7 @@ const DietTable = ({ data, currentPage, itemsPerPage }) => {
           <th className='p-3 text-left'>User Name</th>
           <th className='p-3 text-left'>User Email</th>
           <th className='p-3 text-left'>User Mobile</th>
+          <th className='p-3 text-left'>User Address</th>
           <th className='p-3 text-left'>Created At</th>
         </tr>
       </thead>
@@ -48,6 +49,7 @@ const DietTable = ({ data, currentPage, itemsPerPage }) => {
               <td className='p-3 text-left'>{item.user?.name || 'N/A'}</td>
               <td className='p-3 text-left'>{item.user?.email || 'N/A'}</td>
               <td className='p-3 text-left'>{item.user?.mobile || 'N/A'}</td>
+              <td className='p-3 text-left'>{item.user?.address || 'N/A'}</td>
               <td className='p-3 text-left'>{new Date(item.created_at).toLocaleDateString()}</td>
             </tr>
           ))

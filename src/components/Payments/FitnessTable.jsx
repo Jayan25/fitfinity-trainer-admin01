@@ -14,6 +14,11 @@ const FitnessTable = ({ data, currentPage, itemsPerPage }) => {
           <th className='p-3 text-left'>Trainee Type</th>
           <th className='p-3 text-left'>Trainer Need For</th>
           <th className='p-3 text-left'>Training For</th>
+          <th className='p-3 text-left'>User Name</th>
+          <th className='p-3 text-left'>User Email</th>
+          <th className='p-3 text-left'>User Mobile</th>
+          <th className='p-3 text-left'>User Address</th>
+          <th className='p-3 text-left'>Created At</th>
           <th className='p-3 text-left'>Id/Order Id</th>
         </tr>
       </thead>
@@ -43,6 +48,11 @@ const FitnessTable = ({ data, currentPage, itemsPerPage }) => {
                 {item?.service_booking?.training_needed_for || 'N/A'}
               </td>
               <td className='p-3 text-left'>{item?.service_booking?.training_for || 'N/A'}</td>
+              <td className='p-3 text-left'>{item?.service_booking?.user?.name || 'N/A'}</td>
+              <td className='p-3 text-left'>{item?.service_booking?.user?.email || 'N/A'}</td>
+              <td className='p-3 text-left'>{item?.service_booking?.user?.mobile || 'N/A'}</td>
+              <td className='p-3 text-left'>{item?.service_booking?.user?.address || 'N/A'}</td>
+              <td className='p-3 text-left'>{item?.service_booking?.created_at || 'N/A'}</td>
               <td className='p-3 text-left'>
                 {item?.id || 'N/A'}/{item?.order_id || 'N/A'}
               </td>

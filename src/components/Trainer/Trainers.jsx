@@ -283,8 +283,8 @@ const Users = () => {
                   <td className='p-3'>{item?.kyc_status || '-'}</td>
                   <td className='p-3'>{item?.block_status || '-'}</td>
                   <td className='p-3'>{item?.pin || '-'}</td>
-                  <td className='p-3'>{item?.service_type || '-'}</td>
                   <td className='p-3'>{item?.addhar_address || '-'}</td>
+                  <td className='p-3'>{item?.service_type || '-'}</td>
                   <td className='flex justify-center space-x-2 p-3'>
                     <button
                       className='rounded-lg bg-teal-500 p-2 text-white shadow-md hover:bg-teal-600'
