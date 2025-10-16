@@ -22,7 +22,7 @@ const Dashboard = () => {
     yoga: 0,
     diet: 0,
   });
-  const [bookingCounts, setBookingCounts] = useState({ fitness: 0, yoga: 0, diet: 0 });
+  const [bookingCounts, setBookingCounts] = useState({ fitness_success: 0,fitness_failed: 0, yoga_success: 0, yoga_failed: 0, diet_success: 0, diet_failed: 0 });
   const [error, setError] = useState(null);
   const [userStats, setUserStats] = useState({ active: 0, inactive: 0 });
   const [trainerStats, setTrainerStats] = useState({ active: 0, inactive: 0 });
@@ -96,12 +96,42 @@ const Dashboard = () => {
           ),
         ]);
 
+        const fitnessSuccessCount = fitnessRes.response.rows.filter(
+          (row) => row.status === 'success'
+        ).length;
+        const fitnessFailedCount = fitnessRes.response.rows.filter(
+          (row) => row.status !== 'success'
+        ).length;
+
+        const yogaSuccessCount = yogaRes.response.rows.filter(
+          (row) => row.status === 'success'
+        ).length;
+        const yogaFailedCount = yogaRes.response.rows.filter(
+          (row) => row.status !== 'success'
+        ).length;
+
+        const dietSuccessCount = dietRes.response.rows.filter(
+          (row) => row.payments[0]?.status === 'success'
+        ).length;
+        const dietFailedCount = dietRes.response.rows.filter(
+          (row) => row.payments[0]?.status !== 'success'
+        ).length;
+
         const fitnessRows = fitnessRes.response.rows || [];
         const yogaRows = yogaRes.response.rows || [];
         const dietRows = dietRes.response.rows || [];
-        const fitness = fitnessRows.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-        const yoga = yogaRows.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-        const diet = dietRows.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+        const fitness = fitnessRows.reduce(
+          (sum, p) => sum + (p?.status == 'success' ? Number(p.amount) || 0 : 0),
+          0
+        );
+        const yoga = yogaRows.reduce(
+          (sum, p) => sum + (p?.status == 'success' ? Number(p.amount) || 0 : 0),
+          0
+        );
+        const diet = dietRows.reduce(
+          (sum, p) => sum + (p.payments[0]?.status == 'success' ? Number(p.payments[0].amount) || 0 : 0),
+          0
+        );
         setRevenue({
           total: fitness + yoga + diet,
           fitness,
@@ -109,12 +139,16 @@ const Dashboard = () => {
           diet,
         });
         setBookingCounts({
-          fitness: fitnessRows.length,
-          yoga: yogaRows.length,
-          diet: dietRows.length,
+          fitness_success: fitnessSuccessCount,
+          fitness_failed: fitnessFailedCount,
+          yoga_success: yogaSuccessCount,
+          yoga_failed: yogaFailedCount,
+          diet_success: dietSuccessCount,
+          diet_failed: dietFailedCount,
         });
       } catch (err) {
-        setError('Failed to load revenue or booking data');
+        setError('Failed to load revenue or booking data', err);
+        console.error('Error fetching revenue or bookings:', err);
       } finally {
         setIsLoading(false);
       }
@@ -184,15 +218,30 @@ const Dashboard = () => {
       <div className='mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>
         <div className='flex flex-col items-start rounded-lg bg-white p-6 shadow-md'>
           <span className='text-lg font-semibold text-gray-700'>Fitness Bookings</span>
-          <div className='mt-2 text-3xl font-bold text-blue-600'>{bookingCounts.fitness}</div>
+          <div className='mt-2 text-3xl font-bold text-blue-400'>
+            SucessFul Bookings: {bookingCounts.fitness_success}
+          </div>
+          <div className='mt-2 text-3xl font-bold text-red-400'>
+            Failed Bookings: {bookingCounts.fitness_failed}
+          </div>
         </div>
         <div className='flex flex-col items-start rounded-lg bg-white p-6 shadow-md'>
           <span className='text-lg font-semibold text-gray-700'>Yoga Bookings</span>
-          <div className='mt-2 text-3xl font-bold text-blue-600'>{bookingCounts.yoga}</div>
+          <div className='mt-2 text-3xl font-bold text-blue-400'>
+            SucessFul Bookings: {bookingCounts.yoga_success}
+          </div>
+          <div className='mt-2 text-3xl font-bold text-red-400'>
+            Failed Bookings:{bookingCounts.yoga_failed}
+          </div>
         </div>
         <div className='flex flex-col items-start rounded-lg bg-white p-6 shadow-md'>
           <span className='text-lg font-semibold text-gray-700'>Diet Bookings</span>
-          <div className='mt-2 text-3xl font-bold text-blue-600'>{bookingCounts.diet}</div>
+          <div className='mt-2 text-3xl font-bold text-blue-400'>
+            SucessFul Bookings: {bookingCounts.diet_success}
+          </div>
+          <div className='mt-2 text-3xl font-bold text-red-400'>
+            Failed Bookings: {bookingCounts.diet_failed}
+          </div>
         </div>
       </div>
       <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>

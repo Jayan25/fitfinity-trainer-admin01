@@ -8,6 +8,7 @@ const DietTable = ({ data, currentPage, itemsPerPage }) => {
           <th className='p-3 text-left'>#</th>
           <th className='p-3 text-left'>Type</th>
           <th className='p-3 text-left'>Price</th>
+          <th className='p-3 text-left'>Status</th>
           <th className='p-3 text-left'>Plan For</th>
           <th className='p-3 text-left'>Gender</th>
           <th className='p-3 text-left'>Name</th>
@@ -34,6 +35,7 @@ const DietTable = ({ data, currentPage, itemsPerPage }) => {
               <td className='p-3 text-left'>{(currentPage - 1) * itemsPerPage + index + 1}</td>
               <td className='p-3 text-left'>{item.type}</td>
               <td className='p-3 text-left'>{item.price}</td>
+              <td className='p-3 text-left'>{item.payments[0].status}</td>
               <td className='p-3 text-left'>{item.plan_for}</td>
               <td className='p-3 text-left'>{item.gender}</td>
               <td className='p-3 text-left'>{item.name}</td>
