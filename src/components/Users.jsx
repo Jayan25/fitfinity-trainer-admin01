@@ -18,6 +18,18 @@ const Users = () => {
     return () => clearTimeout(handler);
   }, [search]);
 
+  const formatDate = (dateString) => {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  if (isNaN(date)) return dateString; // return raw value if invalid date
+  return date.toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+};
+
+
   // Fetch users
   const fetchUsers = async () => {
     setIsLoading(true);
@@ -115,7 +127,8 @@ const Users = () => {
                       <td className='p-3'>{item.name ?? '-'}</td>
                       <td className='p-3'>-</td>
                       <td className='p-3'>{item.email ?? '-'}</td>
-                      <td className='p-3'>{serviceBooking?.trial_date ?? '-'}</td>
+                      {/* <td className='p-3'>{serviceBooking?.trial_date ?? '-'}</td> */}
+                      <td className='p-3'>{formatDate(serviceBooking?.trial_date)??'-'}</td>
                       <td className='p-3'>{serviceBooking?.trial_time ?? '-'}</td>
                       <td className='p-3'>{serviceBooking?.address ?? item.address ?? '-'}</td>
                       <td className='p-3'>

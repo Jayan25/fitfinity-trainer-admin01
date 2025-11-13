@@ -1,6 +1,17 @@
 import React from 'react';
 
 const FitnessTable = ({ data, currentPage, itemsPerPage }) => {
+  const formatDate = (dateString) => {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  if (isNaN(date)) return dateString; // return raw value if invalid date
+  return date.toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+};
+
   return (
     <table className='w-full rounded-lg border border-gray-300 shadow-md'>
       <thead>
@@ -40,8 +51,8 @@ const FitnessTable = ({ data, currentPage, itemsPerPage }) => {
                 {item?.service_booking?.preferred_time_to_be_served || 'N/A'}
               </td>
               <td className='p-3 text-left'>
-                {item?.service_booking?.trial_date || 'N/A'}/
-                {item?.service_booking?.trial_time || 'N/A'}
+               {formatDate(item?.service_booking?.trial_date)} / {item?.service_booking?.trial_time?.replace(/:00(\.\d+)?Z?/, '') || 'N/A'}
+
               </td>
               <td className='p-3 text-left'>{item?.service_booking?.trainer_type || 'N/A'}</td>
               <td className='p-3 text-left'>
