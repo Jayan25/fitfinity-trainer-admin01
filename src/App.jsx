@@ -13,6 +13,7 @@ import TrainerProfile from './components/Trainer/TrainerProfile';
 import Trainers from './components/Trainer/Trainers';
 import Users from './components/Users';
 import { AuthProvider } from './context/AuthContext';
+import CustomerManagementForm from '@components/CustomerManagementForm';
 
 function App() {
   return (
@@ -85,6 +86,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NeoEnquiry />
+                  </ProtectedRoute>
+                }
+              />
+
+               <Route
+                path='/customer-management'
+                element={
+                  <ProtectedRoute>
+                    <CustomerManagementForm />
                   </ProtectedRoute>
                 }
               />

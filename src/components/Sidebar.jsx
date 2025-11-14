@@ -80,6 +80,18 @@ const SideBar = () => {
             Payments
           </NavLink>
 
+
+           <NavLink
+            to='/customer-management'
+            className={({ isActive }) =>
+              `flex items-center rounded-lg px-4 py-2 no-underline ${
+                isActive ? 'bg-gray-700 text-white' : 'text-gray-400'
+              } hover:bg-gray-700`
+            }
+          >
+            Customer Management
+          </NavLink>
+
           <NavLink
             to='/login'
             onClick={logout}
