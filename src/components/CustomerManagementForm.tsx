@@ -115,56 +115,56 @@ const CustomerManagementForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError('');
 
-    try {
-      // Prepare data for API according to your Postman structure
-      const submitData = {
-        user_id: userId || "237", // You need to set this dynamically
-        trainer_id: formData.trainerId?.toString() || "",
-        service_booking_step: 1,
-        service_type: formData.chosenPlan.toLowerCase(), // "fitness", "yoga", "diet"
-        preferred_time_to_be_served: formData.bookingTime,
-        training_for: formData.trainingFor, // "male", "female", "couple", "group"
-        trial_date: formData.date,
-        trial_time: formData.timeSlot,
-        trainer_type: formData.trainerType, // "basic", "premium", etc.
-        training_needed_for: formData.trainingNeededFor, // "self", "other"
-        booking_name: formData.bookingName || `${formData.chosenPlan} ${formData.chosenPackage} Session`,
-        address: formData.address,
-        landmark: formData.landmark,
-        area: formData.area,
-        pincode: formData.pinCode,
-        // Additional customer info that might be needed
-        customer_name: formData.name,
-        customer_age: formData.age,
-        customer_email: formData.email,
-        customer_phone: formData.mobileNumber,
-        payment_status: formData.payment,
-        trial_session: formData.trialSession
-      };
+  try {
+    // Prepare data for API according to your Postman structure
+    const submitData = {
+      user_id: userId || "237", // You need to set this dynamically
+      trainer_id: formData.trainerId?.toString() || "",
+      service_booking_step: 1,
+      service_type: formData.chosenPlan.toLowerCase(), // "fitness", "yoga", "diet"
+      preferred_time_to_be_served: formData.bookingTime,
+      training_for: formData.trainingFor, // "male", "female", "couple", "group"
+      trial_date: formData.date,
+      trial_time: formData.timeSlot,
+      trainer_type: formData.trainerType, // "basic", "premium", etc.
+      training_needed_for: formData.trainingNeededFor, // "self", "other"
+      booking_name: formData.bookingName || `${formData.chosenPlan} ${formData.chosenPackage} Session`,
+      address: formData.address,
+      landmark: formData.landmark,
+      area: formData.area,
+      pincode: formData.pinCode
+      // Removed fields that API doesn't accept (based on your working Postman example):
+      // trial_session: formData.trialSession, // NOT ALLOWED
+      // payment_status: formData.payment, // NOT ALLOWED
+      // customer_name: formData.name, // NOT ALLOWED
+      // customer_age: formData.age, // NOT ALLOWED
+      // customer_email: formData.email, // NOT ALLOWED
+      // customer_phone: formData.mobileNumber, // NOT ALLOWED
+    };
 
-      console.log('Submitting data:', submitData);
+    console.log('Submitting data:', submitData);
 
-      // Submit to API
-      const response = await post('/admin/connect-trainer', submitData);
+    // Submit to API
+    const response = await post('/connect-trainer', submitData);
 
-      if (response && response.success) {
-        alert('Customer booking created successfully!');
-        handleReset();
-      } else {
-        throw new Error(response?.message || 'Failed to create booking');
-      }
-    } catch (err: any) {
-      console.error('Error submitting form:', err);
-      setError(err.message || 'Failed to create booking. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    if (response && response.success) {
+      alert('Customer booking created successfully!');
+      handleReset();
+    } else {
+      throw new Error(response?.message || 'Failed to create booking');
     }
-  };
+  } catch (err: any) {
+    console.error('Error submitting form:', err);
+    setError(err.message || 'Failed to create booking. Please try again.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleReset = (): void => {
     setFormData({
