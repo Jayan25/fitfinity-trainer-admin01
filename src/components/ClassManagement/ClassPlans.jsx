@@ -53,12 +53,23 @@ const ClassPlans = () => {
     setSuccessMsg('');
 
     try {
+      const sixMonthPrice = Number(editingPlan.six_month_price);
+      const yearlyPrice = Number(editingPlan.yearly_price);
+      const monthly6M =
+        editingPlan.monthly_rate_6m !== "" && editingPlan.monthly_rate_6m !== undefined
+          ? Number(editingPlan.monthly_rate_6m)
+          : Math.round(sixMonthPrice / (6 * 1.18));
+      const monthly12M =
+        editingPlan.monthly_rate_12m !== "" && editingPlan.monthly_rate_12m !== undefined
+          ? Number(editingPlan.monthly_rate_12m)
+          : Math.round(yearlyPrice / (12 * 1.18));
+
       const payload = {
         name: editingPlan.name,
-        six_month_price: Number(editingPlan.six_month_price),
-        monthly_rate_6m: Number(editingPlan.monthly_rate_6m),
-        yearly_price: Number(editingPlan.yearly_price),
-        monthly_rate_12m: Number(editingPlan.monthly_rate_12m),
+        six_month_price: sixMonthPrice,
+        monthly_rate_6m: monthly6M,
+        yearly_price: yearlyPrice,
+        monthly_rate_12m: monthly12M,
         is_active: Boolean(editingPlan.is_active),
       };
 
@@ -153,7 +164,9 @@ const ClassPlans = () => {
                 <div className='mb-3 rounded-lg bg-amber-50/60 border border-amber-200/60 p-3'>
                   <div className='flex items-center justify-between text-xs font-semibold text-amber-900'>
                     <span>6 Months Plan</span>
-                    <span className='text-amber-700'>≈ ₹{plan.monthly_rate_6m}/mo</span>
+                    <span className='text-amber-700'>
+                      ≈ ₹{Math.round(plan.six_month_price / (6 * 1.18)) || plan.monthly_rate_6m}/mo
+                    </span>
                   </div>
                   <div className='mt-1 text-2xl font-black text-amber-950'>
                     ₹{plan.six_month_price}
@@ -167,7 +180,9 @@ const ClassPlans = () => {
                     <span className='flex items-center gap-1'>
                       12 Months (Best Value) ⭐
                     </span>
-                    <span className='text-blue-700'>≈ ₹{plan.monthly_rate_12m}/mo</span>
+                    <span className='text-blue-700'>
+                      ≈ ₹{Math.round(plan.yearly_price / (12 * 1.18)) || plan.monthly_rate_12m}/mo
+                    </span>
                   </div>
                   <div className='mt-1 text-2xl font-black text-blue-950'>
                     ₹{plan.yearly_price}
@@ -233,20 +248,26 @@ const ClassPlans = () => {
                       type='number'
                       min='1'
                       value={editingPlan.six_month_price}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const autoMonthly = val ? Math.round(Number(val) / (6 * 1.18)) : '';
                         setEditingPlan({
                           ...editingPlan,
-                          six_month_price: e.target.value,
-                        })
-                      }
+                          six_month_price: val,
+                          monthly_rate_6m: autoMonthly,
+                        });
+                      }}
                       required
                       className='mt-1 w-full rounded-lg border border-gray-300 bg-white p-2 text-sm font-semibold'
                     />
                   </div>
                   <div>
-                    <label className='block text-xs font-semibold text-gray-700'>
-                      Approx Monthly Rate (₹/mo)
-                    </label>
+                    <div className='flex items-center justify-between'>
+                      <label className='block text-xs font-semibold text-gray-700'>
+                        Monthly Rate (₹/mo)
+                      </label>
+                      <span className='text-[10px] font-medium text-amber-700'>Auto</span>
+                    </div>
                     <input
                       type='number'
                       min='1'
@@ -276,20 +297,26 @@ const ClassPlans = () => {
                       type='number'
                       min='1'
                       value={editingPlan.yearly_price}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const autoMonthly = val ? Math.round(Number(val) / (12 * 1.18)) : '';
                         setEditingPlan({
                           ...editingPlan,
-                          yearly_price: e.target.value,
-                        })
-                      }
+                          yearly_price: val,
+                          monthly_rate_12m: autoMonthly,
+                        });
+                      }}
                       required
                       className='mt-1 w-full rounded-lg border border-gray-300 bg-white p-2 text-sm font-semibold'
                     />
                   </div>
                   <div>
-                    <label className='block text-xs font-semibold text-gray-700'>
-                      Approx Monthly Rate (₹/mo)
-                    </label>
+                    <div className='flex items-center justify-between'>
+                      <label className='block text-xs font-semibold text-gray-700'>
+                        Monthly Rate (₹/mo)
+                      </label>
+                      <span className='text-[10px] font-medium text-blue-700'>Auto</span>
+                    </div>
                     <input
                       type='number'
                       min='1'
