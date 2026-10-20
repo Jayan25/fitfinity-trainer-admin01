@@ -92,6 +92,31 @@ const SideBar = () => {
             Customer Management
           </NavLink>
 
+          {/* Online Classes Section */}
+          <h3 className='mt-4 mb-2 px-2 text-sm font-semibold text-gray-400 uppercase'>Online Classes</h3>
+
+          <NavLink
+            to='/class-plans'
+            className={({ isActive }) =>
+              `flex items-center rounded-lg px-4 py-2 no-underline ${
+                isActive ? 'bg-gray-700 text-white' : 'text-gray-400'
+              } hover:bg-gray-700`
+            }
+          >
+            Manage Plans & Prices
+          </NavLink>
+
+          <NavLink
+            to='/class-subscriptions'
+            className={({ isActive }) =>
+              `flex items-center rounded-lg px-4 py-2 no-underline ${
+                isActive ? 'bg-gray-700 text-white' : 'text-gray-400'
+              } hover:bg-gray-700`
+            }
+          >
+            Class Subscriptions
+          </NavLink>
+
           <NavLink
             to='/login'
             onClick={logout}

@@ -14,6 +14,8 @@ import Trainers from './components/Trainer/Trainers';
 import Users from './components/Users';
 import { AuthProvider } from './context/AuthContext';
 import CustomerManagementForm from '@components/CustomerManagementForm';
+import ClassPlans from './components/ClassManagement/ClassPlans';
+import ClassSubscriptions from './components/ClassManagement/ClassSubscriptions';
 
 function App() {
   return (
@@ -103,6 +105,22 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Payments />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path='/class-plans'
+                element={
+                  <ProtectedRoute>
+                    <ClassPlans />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path='/class-subscriptions'
+                element={
+                  <ProtectedRoute>
+                    <ClassSubscriptions />
                   </ProtectedRoute>
                 }
               />
